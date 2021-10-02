@@ -1,0 +1,89 @@
+﻿@model CarViewModel
+
+@if (Model == null)
+{
+    ViewBag.Title = "Add Car";
+}
+else
+{
+    ViewBag.Title = "Edit Car";
+}
+
+<h2 class="col-md-6 mx-auto text-center">@ViewBag.Title</h2>
+
+<div class="col-md-6 mx-auto">
+    <form asp-action="AddOrEdit" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input hidden asp-for="Id" />
+        <input hidden asp-for="ImagePath" />
+        <div class="form-group">
+            <label asp-for="Make"></label>
+            <input asp-for="Make" class="form-control" />
+            <span asp-validation-for="Make" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Model"></label>
+            <input asp-for="Model" class="form-control" />
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Year"></label>
+            <input asp-for="Year" class="form-control" />
+            <span asp-validation-for="Year" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Color"></label>
+            <input asp-for="Color" class="form-control" />
+            <span asp-validation-for="Color" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PricePerDay"></label>
+            <div class="input-group">
+                <input asp-for="PricePerDay" class="form-control" />
+                <div class="input-group-prepend">
+                    <div class="input-group-text">EUR</div>
+                </div>
+            </div>
+            <span asp-validation-for="PricePerDay" class="text-danger"></span>
+        </div>
+        <div class="form-check mb-2">
+            <input asp-for="IsAvailable" class="form-check-input" />
+            <label asp-for="IsAvailable" class="form-check-label"></label>
+        </div>
+        <div class="form-group">
+            <label asp-for="Image"></label>
+            <div class="custom-file">
+                <input asp-for="Image" class="custom-file-input" />
+                <label asp-for="Image" class="custom-file-label">Choose File...</label>
+            </div>
+        </div>
+        @if (Model != null)
+        {
+            <div class="form-group">
+                <img src="~/images/@(Model.ImagePath ?? "no-image.jpg")" class="img-fluid mx-auto d-block" style="max-height:500px;" alt="Car image" asp-append-version="true">
+            </div>
+        }
+        <hr />
+        <input type="submit" class="btn btn-info" value="Submit" />
+        @if (Model != null)
+        {
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary float-right">Cancel</a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-secondary float-right">Cancel</a>
+        }
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+}

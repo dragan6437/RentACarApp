@@ -1,0 +1,100 @@
+﻿@model CarRentClientViewModel
+
+@{
+    ViewBag.Title = "Rent Details";
+    var imgPath = Model.Car.ImagePath ?? "no-image.jpg";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-sm">
+        <h4>Car: @Model.Car.Make @Model.Car.Model</h4>
+        <h6>Year: @Model.Car.Year</h6>
+        <h6>Color: @Model.Car.Color</h6>
+        <h6>Price per day: @Model.Car.PricePerDay €</h6>
+        <p class="card-text"><small class="text-muted">@(Model.Car.IsAvailable ? "Available" : "Not Available")</small></p>
+    </div>
+    <div class="col-sm">
+        <img src="~/images/@imgPath" alt="Alternate Text" style="max-width:250px;" />
+    </div>
+</div>
+
+<hr />
+
+<h4>Rent car for client:</h4>
+<form asp-controller="Cars" asp-action="Rent" method="post" class="mt-3">
+    <input type="hidden" name="carId" asp-for="Car.Id" />
+    <div class="form-group row">
+        <div class="col-md-4">
+            <label class="col-form-label">Select client</label>
+            @if (Model.Client != null)
+            {
+                <select name="clientId" class="form-control" id="clientList" disabled></select>
+            }
+            else
+            {
+                <select name="clientId" class="form-control" id="clientList"></select>
+            }
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            @if (Model.Client != null)
+            {
+                <button type="submit" class="btn btn-info" disabled>Rent</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-info">Rent</button>
+            }
+        </div>
+    </div>
+</form>
+
+<hr />
+
+<h4>Client who rented this car:</h4>
+@if (Model.Client == null)
+{
+    <h5 class="text-danger">This car hasn't been rented at the moment.</h5>
+}
+else
+{
+    <table id="client" class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>PhoneNumber</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height: 60px;">
+                <td>@Model.Client.FullName</td>
+                <td>@Model.Client.Age</td>
+                <td>@Model.Client.Email</td>
+                <td>@Model.Client.Gender</td>
+                <td>@Model.Client.City</td>
+                <td>@Model.Client.Country</td>
+                <td>@Model.Client.PhoneNumber</td>
+                <td>
+                    <form asp-controller="Cars" asp-action="Return" method="post" class="mt-3">
+                        <input type="hidden" name="carId" asp-for="Car.Id" />
+                        <input type="hidden" name="clientId" asp-for="Client.Id" />
+                        <button type="submit" class="btn btn-info">Return</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@section Scripts
+{
+    <script src="~/js/clients-select2.js"></script>
+}

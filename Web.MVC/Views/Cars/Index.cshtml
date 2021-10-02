@@ -1,0 +1,51 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model X.PagedList.IPagedList<CarViewModel>
+
+@{
+    ViewBag.Title = "Cars For Rent";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<a asp-controller="Cars" asp-action="AddOrEdit" class="btn btn-info">Add Car</a>
+
+@if (Model.Count == 0)
+{
+    <h3>No cars found!</h3>
+}
+else
+{
+    <div class="card-deck">
+        @foreach (var car in Model)
+        {
+            var imgPath = car.ImagePath ?? "no-image.jpg";
+            <div class="card mt-4" style="min-width: 18rem; max-width:30.5%">
+                <img class="card-img-top" src="~/images/@imgPath" alt="Car image" style="height:220px;border-bottom:1px solid lightgray;" asp-append-version="true">
+                <div class="card-body">
+                    <h5 class="card-title">@car.Make @car.Model</h5>
+                    <p class="card-text">Year: @car.Year</p>
+                    <p class="card-text">Color: @car.Color</p>
+                    <p class="card-text">Price per day: <strong>@car.PricePerDay €</strong></p>
+                    <a asp-action="Details" asp-route-id="@car.Id" class="btn btn-info">Details</a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row mt-4">
+        <div class="mx-auto">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+                new PagedListRenderOptions
+                {
+                    PageClasses = new string[] { "page-link" },
+                    UlElementClasses = new string[] { "pagination" },
+                    LiElementClasses = new string[] { "page-item" },
+                    MaximumPageNumbersToDisplay = 6,
+                    DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                    DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                    DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+                }
+            )
+        </div>
+    </div>
+}

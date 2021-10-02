@@ -1,0 +1,68 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model X.PagedList.IPagedList<ClientViewModel>
+
+@{
+    ViewBag.Title = "Clients";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<a class="btn btn-info" asp-controller="Clients" asp-action="AddOrEdit">Add Client</a>
+
+@if (Model.Count == 0)
+{
+    <h3>No clients found!</h3>
+}
+else
+{
+    <table id="client" class="table table-striped table-hover mt-3">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>PhoneNumber</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model)
+            {
+                <tr style="height: 60px;">
+                    <td>@client.FullName</td>
+                    <td>@client.Age</td>
+                    <td>@client.Email</td>
+                    <td>@client.Gender</td>
+                    <td>@client.City</td>
+                    <td>@client.Country</td>
+                    <td>@client.PhoneNumber</td>
+                    <td>
+                        <a class="btn-link mr-2" asp-controller="Clients" asp-action="Rent" asp-route-id="@client.Id">Rent</a>
+                        <a class="btn-link mr-2" asp-controller="Clients" asp-action="AddOrEdit" asp-route-id="@client.Id">Edit</a>
+                        <a class="btn-link text-danger" asp-controller="Clients" asp-action="Delete" asp-route-id="@client.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row mt-4">
+        <div class="mx-auto">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+                new PagedListRenderOptions
+                {
+                    PageClasses = new string[] { "page-link" },
+                    UlElementClasses = new string[] { "pagination" },
+                    LiElementClasses = new string[] { "page-item" },
+                    MaximumPageNumbersToDisplay = 6,
+                    DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                    DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                    DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded
+                }
+            )
+        </div>
+    </div>
+}

@@ -1,0 +1,27 @@
+﻿@model CarViewModel
+
+@{
+    ViewBag.Title = "Car Details";
+    var imgPath = Model.ImagePath ?? "no-image.jpg";
+}
+
+<h2 class="col-lg-6 mx-auto text-center">@ViewBag.Title</h2>
+
+<div class="col-lg-6 mx-auto">
+    <div class="card mb-3">
+        <img class="card-img-top" src="~/images/@imgPath" alt="Product image" style="height: 320px; border-bottom: 1px solid lightgray;" asp-append-version="true">
+        <div class="card-body">
+            <h4 class="card-title">@Model.Make @Model.Model</h4>
+            <p class="card-text">Year: @Model.Year</p>
+            <p class="card-text">Price for one day: <strong>@Model.PricePerDay €</strong></p>
+            <p class="card-text"><small class="text-muted">@(Model.IsAvailable ? "Available" : "Not Available")</small></p>
+            <hr />
+            <a asp-action="Rent" asp-route-id="@Model.Id" class="btn btn-info">Rent</a>
+            <div class="float-right">
+                <a asp-action="AddOrEdit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-action="Index" class="btn btn-secondary">Go Back</a>
+            </div>
+        </div>
+    </div>
+</div>

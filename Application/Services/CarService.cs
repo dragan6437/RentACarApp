@@ -57,8 +57,6 @@ namespace Application.Services
 
         public void EditCar(CarViewModel carRequest)
         {
-            var car = _mapper.Map<Car>(carRequest);
-
             if (carRequest.Image != null)
             {
                 if (carRequest.ImagePath != null)
@@ -70,7 +68,7 @@ namespace Application.Services
                 carRequest.ImagePath = ImageHandler(carRequest);
             }
 
-            _carRepository.Update(car);
+            _carRepository.Update(_mapper.Map<Car>(carRequest));
         }
 
         public List<CarViewModel> FullTextSearch(string searchTerm)

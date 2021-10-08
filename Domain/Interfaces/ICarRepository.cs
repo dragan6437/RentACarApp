@@ -10,6 +10,7 @@ namespace Domain.Interfaces
 {
     public interface ICarRepository : IBaseRepository<Car>
     {
+        void Update(Car entity);
         IEnumerable<Car> GetAvailableCars();
         IEnumerable<Car> FullTextSearch(string searchTerm);
         Car GetCarWithRentedClient(Guid id);

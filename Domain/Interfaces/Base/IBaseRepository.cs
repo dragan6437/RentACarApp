@@ -11,7 +11,6 @@ namespace Domain.Interfaces.Base
         T GetById(Guid id);
         IReadOnlyList<T> GetAll();
         T Add(T entity);
-        void Update(T entity);
         void Delete(T entity);
     }
 }

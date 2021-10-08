@@ -38,6 +38,7 @@ namespace Application.ViewModels
 
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public string FullName
         {

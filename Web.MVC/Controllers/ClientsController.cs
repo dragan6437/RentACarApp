@@ -20,7 +20,7 @@ namespace Web.MVC.Controllers
 
         public IActionResult Index(int? page)
         {
-            var model = _clientService.GetClients().ToPagedList(page ?? 1, 6);
+            var model = _clientService.GetClients().OrderByDescending(x => x.CreatedOn).ToPagedList(page ?? 1, 6);
             return View(model);
         }
 

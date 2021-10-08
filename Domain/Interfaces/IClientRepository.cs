@@ -10,6 +10,7 @@ namespace Domain.Interfaces
 {
     public interface IClientRepository : IBaseRepository<Client>
     {
+        void Update(Client entity);
         Client GetClientWithRentedCars(Guid id);
         IEnumerable<Client> FullTextSearch(string searchTerm);
     }

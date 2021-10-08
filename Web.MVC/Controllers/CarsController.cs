@@ -20,7 +20,7 @@ namespace Web.MVC.Controllers
 
         public IActionResult Index(int? page)
         {
-            var cars = _carService.GetCars().ToPagedList(page ?? 1, 6);
+            var cars = _carService.GetCars().OrderByDescending(x => x.CreatedOn).ToPagedList(page ?? 1, 6);
             return View(cars);
         }
 
@@ -63,7 +63,7 @@ namespace Web.MVC.Controllers
                 _carService.EditCar(carVm);
             }
 
-            return RedirectToAction("Details", new { id = carId});
+            return RedirectToAction("Details", new { id = carId });
         }
 
         public IActionResult Delete(Guid id)

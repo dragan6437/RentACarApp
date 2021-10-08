@@ -39,5 +39,6 @@ namespace Application.ViewModels
         public string ImagePath { get; set; }
 
         public IFormFile Image { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

@@ -20,6 +20,22 @@ namespace Infrastructure.Data.Repositories
             _dbContext = dbContext;
         }
 
+        public void Update(Car entity)
+        {
+            var car = _dbContext.Cars.FirstOrDefault(x => x.Id == entity.Id);
+
+            car.Make = entity.Make;
+            car.Model = entity.Model;
+            car.Year = entity.Year;
+            car.Color = entity.Color;
+            car.IsAvailable = entity.IsAvailable;
+            car.PricePerDay = entity.PricePerDay;
+            car.ImagePath = entity.ImagePath;
+
+            _dbContext.Cars.Update(car);
+            _dbContext.SaveChanges();
+        }
+
         public IEnumerable<Car> FullTextSearch(string searchTerm)
         {
             return _dbContext.Cars.AsEnumerable().Where(c => (c.IsAvailable == true

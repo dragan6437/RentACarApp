@@ -39,11 +39,5 @@ namespace Infrastructure.Data.Repositories.Base
         {
             return _dbContext.Set<T>().Find(id);
         }
-
-        public void Update(T entity)
-        {
-            _dbContext.Set<T>().Update(entity);
-            _dbContext.SaveChanges();
-        }
     }
 }

@@ -19,5 +19,6 @@ The relationship beetween tha Car and tha Client is one to many, which means one
 
 # Installation
 1. Download the code
-2. Update the database
-3. Run Web.MVC project
+2. Set Web.MVC as startup project
+3. In Package Manager Console type update-database -context RentACarDbContext
+4. Run the application
